@@ -102,7 +102,7 @@ new class{
 			if(Loc.domin.indexOf("?")>=0)
 				Loc.domin=Loc.domin.split("?")[0];
 			//Ele.addJSfile(Loc.page+Loc.url["page"]+".js");
-			const data=await Server.ajax("https://gitprof.mst/db/test.json");
+			const data=await Server.ajax(Loc.domin+"db/test.json");
 			console.log(data.moji);
 		});
 	}
