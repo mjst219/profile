@@ -1,1 +1,8 @@
-body{background:rgb(156, 156, 0);}
+:root{
+	--color-site:rgb(219,219,219);
+}
+
+body{margin:0;}
+
+header{background:var(--color-site);}
+header>*{width:999px;margin:auto;display:grid;}
