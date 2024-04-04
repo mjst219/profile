@@ -1,0 +1,51 @@
+<svg viewBox="0 0 900 180" width="900" height="180" xmlns="http://www.w3.org/2000/svg">
+	<foreignObject width="100%" height="100%">
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			<style>
+				:root{
+					--var-radius:63px;
+				}
+				header{
+					width:900px;
+					height:180px;
+					background:linear-gradient(-45deg,#ee7752,#e73c7e,#23a6d5,#23d5ab);
+					background-size:400% 400%;
+					animation:bg 15s ease infinite;
+					border-top-left-radius:var(--var-radius);
+					border-bottom-right-radius:var(--var-radius);
+					overflow:hidden;
+				}
+				.base{width:96%;margin:3.33%;}
+
+				#hi{
+					transform-origin:bottom center;
+					animation:hi 2.7s infinite;
+					display:inline-block;
+				}
+				@keyframes hi{
+					0%{transform:rotate(0.0deg)}
+					3%{transform:rotate(15deg)}
+					9%{transform:rotate(0deg)}
+					12%{transform:rotate(-15deg)}
+					15%{transform:rotate(0.0deg)}
+					18%{transform:rotate(15deg)}
+					21%{transform:rotate(0deg)}
+					24%{transform:rotate(-15deg)}
+					27%{transform:rotate(0.0deg)}
+					100%{transform:rotate(0.0deg)}
+				}
+				@keyframes bg{
+					0%{background-position:0% 50%;}
+					50%{background-position:100% 50%;}
+					100%{background-position:0% 50%;}
+				}
+			</style>
+			<header>
+				<div class="base">
+					<h1>Hi,I'm Mojtaba <div id="hi">👋</div></h1>
+					<h2>Welcome to my Github profile</h2>
+				</div>
+			</header>
+		</div>
+	</foreignObject>
+</svg>
