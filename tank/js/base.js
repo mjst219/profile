@@ -1,8 +1,8 @@
-class Loc{
+class Ram{
 	static domin;
 	static tank="tank/"
-	static js=Loc.tank+"js/";
-	static page=Loc.js+"pages/";
+	static js=Ram.tank+"js/";
+	static page=Ram.js+"pages/";
 	static url;
 }
 class Ele{
@@ -51,6 +51,25 @@ class Anchor{
 		for(let i=a.length-1;i>=0;i--)
 			a[i].setAttribute("onclick","return false;");
 	}
+}
+class Server{
+	static async ajax(a){
+		let req={method:"GET",headers:new Headers()};
+		req.headers.append("Content-Type","application/json");
+		const response=await fetch(a,req);
+		const data=await response.json();
+		return data;
+	}
+}
+
+// page{
+class Page{
+	lang=["en","pa"];
+	page=["home"];
+	constructor(){
+		eval("new Page_"+Ram.url.page+"();");
+	}
+
 	static mining(l){
 		if(l.indexOf("?")<0)
 			return {page:"home",lang:"en","#":""};
@@ -66,44 +85,38 @@ class Anchor{
 			r[k[0]]=k[1];
 		}
 		r["#"]=typeof l[1]!="undefined"?l[1]:"";
-		if(typeof r["home"]=="undefined")
-			r.home="page";
-		if(typeof r["lang"]=="undefined")
+		if( typeof r.page=="undefined" || !this.page.includes(r.page) )
+			r.page="home";
+		if( typeof r.lang=="undefined" || !this.lang.includes(r.lang) )
 			r.lang="en";
 		return r;
 	}
 }
-class Server{
-	static async ajax(a){
-		let req={method:"GET",headers:new Headers()};
-		req.headers.append("Content-Type","application/json");
-		const response=await fetch(a,req);
-		const data=await response.json();
-		return data;
-	}
-}
-
-// page{
-class Err{
+class Page_404{
 	constructor(){
 
 	}
 }
-class Home{
-	constructor(){}
+class Page_home{
+	constructor(){
+		this.start()
+	}
+	async start(){
+		const data=await Server.ajax(Ram.domin+"db/"+Ram.url.lang+"/test.json");
+		console.log(data.moji);
+	}
 }
 // }
 
 new class{
 	constructor(){
 		window.addEventListener("load",async (e)=>{
-			Loc.domin=window.location.href;
-			Loc.url=Anchor.mining(Loc.domin);
-			if(Loc.domin.indexOf("?")>=0)
-				Loc.domin=Loc.domin.split("?")[0];
-			//Ele.addJSfile(Loc.page+Loc.url["page"]+".js");
-			const data=await Server.ajax(Loc.domin+"db/test.json");
-			console.log(data.moji);
+			Ram.domin=window.location.href;
+			Ram.url=Page.mining(Ram.domin);
+			if(Ram.domin.indexOf("?")>=0)
+				Ram.domin=Ram.domin.split("?")[0];
+			//Ele.addJSfile(Ram.page+Ram.url["page"]+".js");
+			new Page();
 		});
 	}
 }
