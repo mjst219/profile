@@ -382,7 +382,7 @@
 				}
 			}
 			class Base{
-				static page='profile';
+				static page='Profile';
 				static id=0;
 				static lang='en';
 				static #dic={
@@ -434,11 +434,22 @@
 				static #changePage(data){
 				}
 				static #start(){
-					this.page='profile';
+					this.page='Profile';
 					this.id=0;
 					this.lang='en';
 					window.history.replaceState('','','?lang='+this.lang+'&hand='+Setting.getHand()+'&page='+this.page+'&id='+this.id);
 					new Profile();
+				}
+				static changePage(p,n,i=0){
+					let b=document.getElementById('base'),c=b.children[0];
+					c.setAttribute('class','hide');
+					c.addEventListener('animationend',(e)=>{
+						this.page=p;
+						this.id=i;
+						c.remove();
+						n.setAttribute('class','show');
+						b.appendChild(n);
+					});
 				}
 			}
 			class Profile{
@@ -446,7 +457,13 @@
 					this.#creator();
 				}
 				#creator(){
-					//alert('Dreamer');
+					Base.changePage(this.constructor.name,Ele.create({
+						e:'div',
+						a:{id:'Dreamer'},
+						c:[
+							{e:'h1',t:'Draemer'}
+						]
+					}));
 				}
 			}
 			class Project{
@@ -454,19 +471,51 @@
 					this.#creator();
 				}
 				#creator(){
-					alert('Project');
+					Base.changePage(this.constructor.name,Ele.create({
+						e:'div',
+						a:{id:'Project'},
+						c:[
+							{e:'h1',t:'Project'}
+						]
+					}));
 				}
 			}
-
-			new class{
+			class Me{
 				constructor(){
-					
+					this.#creator();
+				}
+				#creator(){
+					Base.changePage(this.constructor.name,Ele.create({
+						e:'div',
+						a:{id:'Me'},
+						c:[
+							{e:'h1',t:'Me'}
+						]
+					}));
+				}
+			}
+			class Work{
+				constructor(){
+					this.#creator();
+				}
+				#creator(){
+					Base.changePage(this.constructor.name,Ele.create({
+						e:'div',
+						a:{id:'Work'},
+						c:[
+							{e:'h1',t:'Work'}
+						]
+					}));
 				}
 			}
 
 			window.onload=(e)=>{
-				Base.review();
-				Base.address();
+				new class{
+					constructor(){
+						Base.review();
+						Base.address();
+					}
+				}
 			}
 			window.onclick=(e)=>{
 				
@@ -493,10 +542,10 @@
 					<a onclick="new Project();" title="پروژه ها"></a>
 				</div>
 				<div>
-					<a href="#" title="The works"></a>
+					<a onclick="new Me();" title="The works"></a>
 				</div>
 				<div>
-					<a href="#" title="پروژه ها"></a>
+					<a onclick="new Work();" title="پروژه ها"></a>
 				</div>
 			</div>
 		</footer>
@@ -505,6 +554,14 @@
 			<div id="profile">
 				<div>
 					<div></div>
+					<h1>من مجتبی هستم</h1>
+					<p>
+						همانطور که از عنوان پیداست، من مجتبی هستم، و شما احتمالا اینجا هستید که با من بیشتر آشنا بشید، ولی چون نمی دونم از کجا شروع کنم، می رم سراغ اولش
+						در یک روز معمولی، از یک ماه معمولی، از یک سال معمولی، در خانواده ای معمولی، در شهری معمولی، در کشوری کاملا غیر معمولی متولد شدم.
+
+						همانطور که از عنوان صفحه پیداست، «اسم من مجتباست»
+						پسری معمولی، از یک خانواده
+					</p>
 				</div>
 			</div>
 		</div>
