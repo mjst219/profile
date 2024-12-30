@@ -166,6 +166,12 @@
 						e.remove();
 					}catch(e){console.log('The element was not deleted('+e+').');}
 				}
+				static deleteChild(e){
+					try{
+						while(e.firstChild)
+							e.firstChild.remove();
+					}catch(e){console.log('The element was not deleted('+e+').');}
+				}
 			}
 
 			class Setting{
@@ -446,7 +452,7 @@
 					c.addEventListener('animationend',(e)=>{
 						this.page=p;
 						this.id=i;
-						c.remove();
+						Ele.deleteChild(b);
 						n.setAttribute('class','show');
 						b.appendChild(n);
 					});
