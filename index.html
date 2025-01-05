@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en" hand="right">
+<html dir="rtl" lang="fa" hand="right">
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		<meta charset="utf-8">
@@ -36,6 +36,7 @@
 			body{margin:0;overflow-x:hidden;}
 			body::before,#setting{content:"";position:fixed;width:100%;height:100%;top:0;left:0;}
 			body::before{opacity:0;background:var(--img-dreamer) center center no-repeat;background-size:contain;animation:startBG 3333ms ease-in-out 3333ms forwards;}
+			a{cursor:pointer;}
 			.show{animation:show var(--time-motion-page) ease-in-out forwards;}
 			.hide{animation:hide var(--time-motion-page) ease-in-out forwards;}
 
@@ -166,7 +167,7 @@
 						e.remove();
 					}catch(e){console.log('The element was not deleted('+e+').');}
 				}
-				static deleteChild(e){
+				static deleteAllChild(e){
 					try{
 						while(e.firstChild)
 							e.firstChild.remove();
@@ -174,10 +175,30 @@
 				}
 			}
 
-			class Setting{
+			class Ram{
 				static lang='en';
-				static #lang=[
-					{
+				static page='profile';
+				static id=0;
+				static btn={};
+				static base;
+				static setLang(lang){
+					if(lang in Setting.lang){
+						document.getElementsByTagName('html')[0].setAttribute('lang',lang);
+						document.getElementsByTagName('html')[0].setAttribute('dir',Setting.lang[lang].dir);
+						Ram.lang=lang;
+					}//else throw 'xX Ram.setLang(lang) Xx';
+				}
+				static getLang(){return document.hand || document.querySelector('html').getAttribute('lang');}
+				static setHand(hand){
+					if(hand in Setting.hand)
+						document.getElementsByTagName('html')[0].setAttribute('hand',hand);
+					//else throw 'xX Ram.setHand(hand) Xx';
+				}
+				static getHand(){return document.hand || document.querySelector('html').getAttribute('hand');}
+			}
+			class Setting{
+				static lang={
+					fa:{
 						title:{
 							fa:'FA',
 							en:'FA'
@@ -189,7 +210,7 @@
 						key:'fa',
 						dir:'rtl'
 					},
-					{
+					en:{
 						title:{
 							fa:'EN',
 							en:'EN'
@@ -201,9 +222,9 @@
 						key:'en',
 						dir:'ltr'
 					}
-				];
-				static #hand=[
-					{
+				};
+				static hand={
+					left:{
 						title:{
 							fa:'چپ',
 							en:'Left'
@@ -214,7 +235,7 @@
 						},
 						key:'left'
 					},
-					{
+					right:{
 						title:{
 							fa:'راست',
 							en:'Right'
@@ -225,8 +246,8 @@
 						},
 						key:'right'
 					}
-				];
-				#dic={
+				};
+				static dic={
 					title:{
 						fa:'تنظیمات',
 						en:'Setting'
@@ -244,24 +265,80 @@
 						en:'Apply'
 					}
 				};
-				static getLang(){return document.hand || document.querySelector('html').getAttribute('lang');}
-				static setLang(){}
-				static getHand(){return document.hand || document.querySelector('html').getAttribute('hand');}
-				static setHand(hand){
-					let error=true;
-					this.#hand.forEach((v,k)=>{
-						if(v.key=hand)
-							error=false;
+				static creator(){
+					let x={
+						e:'div',
+						a:{id:'setting',class:'show'},
+						c:[
+							{
+								e:'div',
+								c:[
+									{
+										e:'div',
+										c:[
+											{e:'div',t:this.dic['title'][Ram.lang]},
+											{e:'div',t:'X',a:{onclick:'Setting.close();'}}
+										]
+									},
+									{
+										e:'div',
+										c:[
+											{
+												e:'table',
+												c:[
+													{
+														e:'tr',
+														c:[
+															{e:'td',t:this.dic['language'][Ram.lang]+':'}
+														]
+													},
+													{
+														e:'tr',
+														c:[
+															{e:'td',t:this.dic['hand'][Ram.lang]+':'}
+														]
+													}
+												]
+											},
+											{e:'input',a:{type:'button',value:this.dic['apply'][Ram.lang],onclick:'Setting.apply();'}}
+										]
+									}
+								]
+							}
+						]
+					};
+
+					Object.values(this.lang).forEach((v,i)=>{
+						let y={
+							e:'td',
+							t:v.title[Ram.lang],
+							a:{
+								onclick:'Setting.changeSelect(this);',
+								title:v.des[Ram.lang]
+							}
+						};
+						if(Ram.lang==v.key)
+							y.a.style='text-decoration:underline;color:red;'
+						x.c[0].c[1].c[0].c[0].c.push(y);
 					});
-					if(error){
-						console.log('The input is not valid( Setting.setHand(hand){...} )');
-						return false;
-					}
-					document.querySelector('html').setAttribute('hand',hand);
+					
+					Object.values(this.hand).forEach((v,k)=>{
+						let y={
+							e:'td',
+							t:v.title[Base.lang],
+							a:{
+								onclick:'Setting.changeSelect(this);',
+								title:v.des[Base.lang]
+							}
+						};
+						if(Ram.getHand()==v.key)
+							y.a.style='text-decoration:underline;color:red;'
+						x.c[0].c[1].c[0].c[1].c.push(y);
+					});
+					document.body.append(Ele.create(x));
 				}
-				static #off=true;
+
 				static close(){
-					this.#off=true;
 					let m=document.querySelector('#setting');
 					m.setAttribute('class','hide');
 					m.addEventListener("animationend",(e)=>{
@@ -278,14 +355,14 @@
 					let list,lang,hand;
 					//lang
 					list=document.querySelector('#setting').querySelectorAll('tr')[0].children;
-					this.#lang.forEach((v,k)=>{
+					Object.values(this.lang).forEach((v,k)=>{
 						let i=k+1;
 						if(list[i].hasAttribute('style'))
 							lang=v;
 					});
 					//hand
 					list=document.querySelector('#setting').querySelectorAll('tr')[1].children;
-					this.#hand.forEach((v,k)=>{
+					Object.values(this.hand).forEach((v,k)=>{
 						let i=k+1;
 						if(list[i].hasAttribute('style'))
 							hand=v;
@@ -298,135 +375,118 @@
 					let door=document.querySelector('#door');
 					door.setAttribute('class','restart');
 					door.children[0].addEventListener('animationend',(e)=>{
-						Base.lang=lang;
-						document.querySelector('html').setAttribute('lang',lang);
-						document.querySelector('html').setAttribute('dir',dir);
-						document.querySelector('html').setAttribute('hand',hand);
-						Base.review();
-						// run reload page
-						document.documentElement.style.setProperty('--time-delay-start','999ms');
-						door.setAttribute('class','start');
+						if(e.animationName=='restartLeft'){
+							Ram.setLang(lang);
+							Ram.setHand(hand);
+							ManagePages.review();
+							document.documentElement.style.setProperty('--time-motion-page','0ms');
+							Ram.page.creator();
+							document.documentElement.style.setProperty('--time-motion-page','333ms');
+							console.log(lang);
+							document.documentElement.style.setProperty('--time-delay-start','999ms');
+							door.setAttribute('class','start');
+						}
 					});
 				}
-				
-				constructor(brand){
-					if(Setting.#off){
-						Setting.#off=false;
-						this.#creator();
-					}
-				}
-				#creator(){
-					let x={
-						e:'div',
-						a:{id:'setting',class:'show'},
-						c:[
-							{
-								e:'div',
-								c:[
-									{
-										e:'div',
-										c:[
-											{e:'div',t:this.#dic['title'][Base.lang]},
-											{e:'div',t:'X',a:{onclick:'Setting.close();'}}
-										]
-									},
-									{
-										e:'div',
-										c:[
-											{
-												e:'table',
-												c:[
-													{
-														e:'tr',
-														c:[
-															{e:'td',t:this.#dic['language'][Base.lang]+':'}
-														]
-													},
-													{
-														e:'tr',
-														c:[
-															{e:'td',t:this.#dic['hand'][Base.lang]+':'}
-														]
-													}
-												]
-											},
-											{e:'input',a:{type:'button',value:this.#dic['apply'][Base.lang],onclick:'Setting.apply();'}}
-										]
-									}
-								]
-							}
-						]
+			};
+			class Pages{
+				static profile=new class{
+					name='profile';
+					dic={
+						title:{
+							fa:'نمایه',
+							en:'Profile'
+						}
 					};
-					Setting.#lang.forEach((v,k)=>{
-						let y={
-							e:'td',
-							t:v.title[Base.lang],
-							a:{
-								onclick:'Setting.changeSelect(this);',
-								title:v.des[Base.lang]
-							}
-						};
-						if(Base.lang==v.key)
-							y.a.style='text-decoration:underline;color:red;'
-						x.c[0].c[1].c[0].c[0].c.push(y);
-					});
-					let hand=
-					Setting.#hand.forEach((v,k)=>{
-						let y={
-							e:'td',
-							t:v.title[Base.lang],
-							a:{
-								onclick:'Setting.changeSelect(this);',
-								title:v.des[Base.lang]
-							}
-						};
-						if(Setting.getHand()==v.key)
-							y.a.style='text-decoration:underline;color:red;'
-						x.c[0].c[1].c[0].c[1].c.push(y);
-					});
-					document.body.append(Ele.create(x));
-				}
-			}
-			class Base{
-				static page='Profile';
-				static id=0;
-				static lang='en';
-				static #dic={
-					setting:{
-						fa:'تنظیمات',
-						en:'Setting'
-					},
-					profile:{
-						fa:'نمایه',
-						en:'Profile'
-					},
-					search:{
-						fa:'جستجو',
-						en:'Search'
-					},
-					github:{
-						fa:'گیت هاب',
-						en:'Github'
-					},
-					project:{
-						fa:'پروژه',
-						en:'Project'
+					creator(){
+						ManagePages.changePage(this,Ele.create({
+							e:'div',
+							a:{id:'Profile'},
+							c:[
+								{e:'h1',t:this.dic.title[Ram.lang]}
+							]
+						}));
 					}
 				};
+				static projects=new class{
+					name='projects';
+					dic={
+						title:{
+							fa:'پروژه ها',
+							en:'Projects'
+						}
+					};
+					creator(){
+						ManagePages.changePage(this,Ele.create({
+							e:'div',
+							a:{id:'Projects'},
+							c:[
+								{e:'h1',t:this.dic.title[Ram.lang]}
+							]
+						}));
+					}
+				};
+				static works=new class{
+					name='works';
+					dic={
+						title:{
+							fa:'کارها',
+							en:'The Works'
+						}
+					};
+					creator(){
+						ManagePages.changePage(this,Ele.create({
+							e:'div',
+							a:{id:'Work'},
+							c:[
+								{e:'h1',t:this.dic.title[Ram.lang]}
+							]
+						}));
+					}
+				};
+				static me=new class{
+					name='me';
+					dic={
+						title:{
+							fa:'راه های ارتباطی',
+							en:'Ways of communication'
+						}
+					};
+					creator(){
+						ManagePages.changePage(this,Ele.create({
+							e:'div',
+							a:{id:'Me'},
+							c:[
+								{e:'h1',t:this.dic.title[Ram.lang]}
+							]
+						}));
+					}
+				};
+			}
+			class ManagePages{
 				static review(){
-					let e=document.getElementsByTagName('header')[0].children[0].children;
-					e[0].title=this.#dic.profile[Base.lang];
-					e[1].setAttribute('placeholder',this.#dic.search[Base.lang]);
-					e[2].title=this.#dic.setting[Base.lang];
-					e=document.querySelector("footer").children[0].children;
-					e[0].children[0].title=this.#dic.github[Base.lang];
-					e[1].children[0].title=this.#dic.github[Base.lang];
-					e[2].children[0].title=this.#dic.github[Base.lang];
+					Ram.btn.setting.title=Setting.dic.title[Ram.lang];
+					Ram.btn.profile.title=Pages.profile.dic.title[Ram.lang];
+					Ram.btn.projects.title=Pages.projects.dic.title[Ram.lang];
+					Ram.btn.works.title=Pages.works.dic.title[Ram.lang];
+					Ram.btn.me.title=Pages.me.dic.title[Ram.lang];
+				}
+				static changePage(p,n,i=0){
+					let c=Ram.base.children[0];
+					c.setAttribute('class','hide');
+					Ram.page=p;
+					Ram.id=i;
+					//this.#changeUrl();
+					c.addEventListener('animationend',(e)=>{
+						Ele.deleteAllChild(Ram.base);
+						n.setAttribute('class','show');
+						Ram.base.appendChild(n);
+					});
 				}
 				static address(){
 					let get=window.location.href.split('?'),data={};
 					if(get.length<=1){
-						this.#start();
+						//this.#start();
 					}else{
 						get=get[1].split('&');
 						for(let i=get.length-1;i>=0;i--){
@@ -434,97 +494,71 @@
 							if( get[i].length==2 && ['page','id','hand','lang'].includes(get[i][0]) )
 								data[get[i][0]]=get[i][1];
 						}
-						this.#changePage(data);
+						//this.#changePage(data);
 					}
 				}
-				static #changePage(data){
-				}
-				static #start(){
-					this.page='Profile';
-					this.id=0;
-					this.lang='en';
-					window.history.replaceState('','','?lang='+this.lang+'&hand='+Setting.getHand()+'&page='+this.page+'&id='+this.id);
-					new Profile();
-				}
+				
 				static changePage(p,n,i=0){
 					let b=document.getElementById('base'),c=b.children[0];
 					c.setAttribute('class','hide');
+					this.page=p;
+					this.id=i;
+					this.#changeUrl();
 					c.addEventListener('animationend',(e)=>{
-						this.page=p;
-						this.id=i;
-						Ele.deleteChild(b);
+						Ele.deleteAllChild(b);
 						n.setAttribute('class','show');
 						b.appendChild(n);
 					});
 				}
-			}
-			class Profile{
-				constructor(){
-					this.#creator();
+				static #changeUrl(){
+					window.history.pushState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page+'&id='+Ram.id);
 				}
-				#creator(){
-					Base.changePage(this.constructor.name,Ele.create({
-						e:'div',
-						a:{id:'Dreamer'},
-						c:[
-							{e:'h1',t:'Draemer'}
-						]
-					}));
+				static start(){
+					Ram.page=Pages.profile;
+					Ram.id=0;
+					Ram.setLang('en');
+					window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page.name+'&id='+Ram.id);
+					Pages.profile.creator();
 				}
-			}
-			class Project{
-				constructor(){
-					this.#creator();
-				}
-				#creator(){
-					Base.changePage(this.constructor.name,Ele.create({
-						e:'div',
-						a:{id:'Project'},
-						c:[
-							{e:'h1',t:'Project'}
-						]
-					}));
-				}
-			}
-			class Me{
-				constructor(){
-					this.#creator();
-				}
-				#creator(){
-					Base.changePage(this.constructor.name,Ele.create({
-						e:'div',
-						a:{id:'Me'},
-						c:[
-							{e:'h1',t:'Me'}
-						]
-					}));
-				}
-			}
-			class Work{
-				constructor(){
-					this.#creator();
-				}
-				#creator(){
-					Base.changePage(this.constructor.name,Ele.create({
-						e:'div',
-						a:{id:'Work'},
-						c:[
-							{e:'h1',t:'Work'}
-						]
-					}));
-				}
-			}
+			};
+			
 
 			window.onload=(e)=>{
 				new class{
 					constructor(){
-						Base.review();
-						Base.address();
+						Ram.setLang(Ram.getLang());
+						ManagePages.start();
+						Ram.base=document.getElementById('base');
+						Ram.btn['profile']=document.getElementById('profileBTN');
+						Ram.btn['setting']=document.getElementById('settingBTN');
+						Ram.btn['projects']=document.getElementById('projectsBTN');
+						Ram.btn['works']=document.getElementById('worksBTN');
+						Ram.btn['me']=document.getElementById('meBTN');
+						ManagePages.review();
 					}
 				}
 			}
 			window.onclick=(e)=>{
-				
+				switch(e.target){
+					case Ram.btn['profile']:
+						Pages.profile.creator();
+						break;
+					case Ram.btn['setting']:
+						Setting.creator();
+						break;
+					case Ram.btn['projects']:
+						Pages.projects.creator();
+						break;
+					case Ram.btn['works']:
+						Pages.works.creator();
+						break;
+					case Ram.btn['me']:
+						Pages.me.creator();
+						break;
+					default:
+						//alert('ye jaie dige...');
+				}
+				return false;
 			}
 		</script>
 	</head>
@@ -537,32 +571,27 @@
 
 		<header>
 			<div>
-				<a onclick="new Profile();" title="نمایه"></a>
+				<a id="profileBTN" title="نمایه"></a>
 				<input type="text" placeholder="جستجو">
-				<a onclick="new Setting();" title="تنظیمات"></a>
+				<a id="settingBTN" title="تنظیمات"></a>
 			</div>
 		</header>
 		<footer>
 			<div>
 				<div>
-					<a onclick="new Project();" title="پروژه ها"></a>
+					<a id="projectsBTN" title="پروژه ها"></a>
 				</div>
 				<div>
-					<a onclick="new Me();" title="The works"></a>
+					<a id="worksBTN" title="The works"></a>
 				</div>
 				<div>
-					<a onclick="new Work();" title="پروژه ها"></a>
+					<a id="meBTN" title="راه های ارتباطی"></a>
 				</div>
 			</div>
 		</footer>
 
 		<div id="base">
-			<div id="profile">
-				<div>
-					<div></div>
-					<h1>Dreamer</h1>
-				</div>
-			</div>
+			
 		</div>
 
 	</body>
