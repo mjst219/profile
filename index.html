@@ -325,10 +325,10 @@
 					Object.values(this.hand).forEach((v,k)=>{
 						let y={
 							e:'td',
-							t:v.title[Base.lang],
+							t:v.title[Ram.lang],
 							a:{
 								onclick:'Setting.changeSelect(this);',
-								title:v.des[Base.lang]
+								title:v.des[Ram.lang]
 							}
 						};
 						if(Ram.getHand()==v.key)
@@ -471,6 +471,8 @@
 					Ram.btn.works.title=Pages.works.dic.title[Ram.lang];
 					Ram.btn.me.title=Pages.me.dic.title[Ram.lang];
 				}
+
+				
 				static changePage(p,n,i=0){
 					let c=Ram.base.children[0];
 					c.setAttribute('class','hide');
@@ -483,6 +485,7 @@
 						Ram.base.appendChild(n);
 					});
 				}
+				/*
 				static address(){
 					let get=window.location.href.split('?'),data={};
 					if(get.length<=1){
@@ -497,7 +500,6 @@
 						//this.#changePage(data);
 					}
 				}
-				/*
 				static changePage(p,n,i=0){
 					let b=document.getElementById('base'),c=b.children[0];
 					c.setAttribute('class','hide');
@@ -528,7 +530,6 @@
 				new class{
 					constructor(){
 						Ram.setLang(Ram.getLang());
-						ManagePages.start();
 						Ram.base=document.getElementById('base');
 						Ram.btn['profile']=document.getElementById('profileBTN');
 						Ram.btn['setting']=document.getElementById('settingBTN');
@@ -536,6 +537,7 @@
 						Ram.btn['works']=document.getElementById('worksBTN');
 						Ram.btn['me']=document.getElementById('meBTN');
 						ManagePages.review();
+						ManagePages.start();
 					}
 				}
 			}
@@ -592,7 +594,20 @@
 		</footer>
 
 		<div id="base">
-			
+			<div id="profile">
+				<div>
+					<div></div>
+					<h1>من مجتبی هستم</h1>
+					<p>
+						همانطور که از عنوان پیداست، من مجتبی هستم، و شما احتمالا اینجا هستید تا با من بیشتر آشنا بشید، از اونجایی که به نوشتن علاقه دارم ( حالا می خواد برنامه نویسی باشه یا نوشتن شعر و متن ادبی ) ، خیلی نمی خوام قواعد رزومه نویس رعایت کنم می خوام
+						همانطور که از عنوان پیداست، من مجتبی هستم، و شما احتمالا اینجا هستید که با من بیشتر آشنا بشید، ولی چون نمی دونم از کجا شروع کنم، می رم سراغ اولش
+						در یک روز معمولی، از یک ماه معمولی، از یک سال معمولی، در خانواده ای معمولی، در شهری معمولی، در کشوری کاملا غیر معمولی متولد شدم.
+
+						همانطور که از عنوان صفحه پیداست، «اسم من مجتباست»
+						پسری معمولی، از یک خانواده
+					</p>
+				</div>
+			</div>
 		</div>
 
 	</body>
