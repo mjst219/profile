@@ -389,6 +389,14 @@
 					});
 				}
 			};
+			class Search{
+				static dic={
+					title:{
+						fa:'جستجو',
+						en:'Search'
+					}
+				};
+			};
 			class Pages{
 				static profile=new class{
 					name='profile';
@@ -465,31 +473,48 @@
 			}
 			class ManagePages{
 				static review(){
+					Ram.btn.search.placeholder=Search.dic.title[Ram.lang];
 					Ram.btn.setting.title=Setting.dic.title[Ram.lang];
 					Ram.btn.profile.title=Pages.profile.dic.title[Ram.lang];
 					Ram.btn.projects.title=Pages.projects.dic.title[Ram.lang];
 					Ram.btn.works.title=Pages.works.dic.title[Ram.lang];
 					Ram.btn.me.title=Pages.me.dic.title[Ram.lang];
 				}
-
+				
+				static urlMining(replace=false){
+					let l='?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page.name+'&id='+Ram.id;
+					if(replace){
+						console.log('injam1');
+						window.history.replaceState('','',l);
+					}else{
+						console.log('injam2');
+						window.history.pushState('','',l);
+					}
+				}
 				
 				static changePage(p,n,i=0){
-					let c=Ram.base.children[0];
+					let c=Ram.base.children;
+					if(c.length==0){
+						c=Ele.create({e:'div'});
+						Ram.base.appendChild(c);
+					}else c=c[0];
 					c.setAttribute('class','hide');
-					Ram.page=p;
-					Ram.id=i;
-					//this.#changeUrl();
+					if( Ram.page!=p || Ram.id!=i ){
+						Ram.page=p;
+						Ram.id=i;
+						this.urlMining();
+					}else this.urlMining(true);
 					c.addEventListener('animationend',(e)=>{
 						Ele.deleteAllChild(Ram.base);
 						n.setAttribute('class','show');
 						Ram.base.appendChild(n);
 					});
 				}
-				/*
+				
 				static address(){
 					let get=window.location.href.split('?'),data={};
 					if(get.length<=1){
-						//this.#start();
+						this.#start();
 					}else{
 						get=get[1].split('&');
 						for(let i=get.length-1;i>=0;i--){
@@ -500,6 +525,7 @@
 						//this.#changePage(data);
 					}
 				}
+				/*
 				static changePage(p,n,i=0){
 					let b=document.getElementById('base'),c=b.children[0];
 					c.setAttribute('class','hide');
@@ -516,7 +542,25 @@
 					window.history.pushState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page+'&id='+Ram.id);
 				}
 				*/
-				static start(){
+				static go(){
+					let get=window.location.href.split('?'),data={};
+					if(get.length<=1){
+						Ram.page=Pages.profile;
+						Ram.id=0;
+						Ram.setLang('en');
+						window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page.name+'&id='+Ram.id);
+						Pages.profile.creator();
+					}else{
+						get=get[1].split('&');
+						for(let i=get.length-1;i>=0;i--){
+							get[i]=get[i].split('=');
+							if( get[i].length==2 && ['page','id','hand','lang'].includes(get[i][0]) )
+								data[get[i][0]]=get[i][1];
+						}
+						//this.#changePage(data);
+					}
+				}
+				static #start(){
 					Ram.page=Pages.profile;
 					Ram.id=0;
 					Ram.setLang('en');
@@ -524,20 +568,26 @@
 					Pages.profile.creator();
 				}
 			};
-			
+			class Address{
+				default={hand:'right',lang:'en',page:'profile',id:0};
+				change(link={hand:'right',lang:'en',page:'profile',id:0}){
+					
+				}
+			}
 
 			window.onload=(e)=>{
 				new class{
 					constructor(){
 						Ram.setLang(Ram.getLang());
 						Ram.base=document.getElementById('base');
+						Ram.btn['search']=document.getElementById('searchBTN');
 						Ram.btn['profile']=document.getElementById('profileBTN');
 						Ram.btn['setting']=document.getElementById('settingBTN');
 						Ram.btn['projects']=document.getElementById('projectsBTN');
 						Ram.btn['works']=document.getElementById('worksBTN');
 						Ram.btn['me']=document.getElementById('meBTN');
 						ManagePages.review();
-						ManagePages.start();
+						ManagePages.go();
 					}
 				}
 			}
@@ -545,6 +595,7 @@
 				switch(e.target){
 					case Ram.btn['profile']:
 						Pages.profile.creator();
+						window.dispatchEvent(new Event('pushstate'));
 						break;
 					case Ram.btn['setting']:
 						Setting.creator();
@@ -563,6 +614,9 @@
 				}
 				return false;
 			}
+			window.addEventListener('popstate',(e)=>{
+				console.log('soon');
+			});
 		</script>
 	</head>
 	<body>
@@ -575,7 +629,7 @@
 		<header>
 			<div>
 				<a id="profileBTN" title="نمایه"></a>
-				<input type="text" placeholder="جستجو">
+				<input id="searchBTN" type="text" placeholder="جستجو">
 				<a id="settingBTN" title="تنظیمات"></a>
 			</div>
 		</header>
