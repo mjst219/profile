@@ -587,6 +587,7 @@
 						Ram.btn['works']=document.getElementById('worksBTN');
 						Ram.btn['me']=document.getElementById('meBTN');
 						ManagePages.review();
+						Pages.profile.creator();
 						ManagePages.go();
 					}
 				}
@@ -595,7 +596,6 @@
 				switch(e.target){
 					case Ram.btn['profile']:
 						Pages.profile.creator();
-						window.dispatchEvent(new Event('pushstate'));
 						break;
 					case Ram.btn['setting']:
 						Setting.creator();
