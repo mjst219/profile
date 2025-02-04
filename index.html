@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="fa" hand="right">
+<html dir="ltr" lang="en" hand="right">
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		<meta charset="utf-8">
@@ -39,6 +39,8 @@
 			a{cursor:pointer;}
 			.show{animation:show var(--time-motion-page) ease-in-out forwards;}
 			.hide{animation:hide var(--time-motion-page) ease-in-out forwards;}
+
+			.text{white-space:pre-line;text-align:justify;}
 
 			#door>div{content:"";width:50vw;height:100vh;position:fixed;top:0;background:var(--color-base);z-index:3;}
 			#door>div:first-child{background:var(--img-dreamer-left) center right no-repeat,var(--color-base);}
@@ -94,7 +96,8 @@
 			#base{position:relative;margin:var(--size-band) auto;}
 			
 			#profile>*:first-child{display:inline-block;width:100%;position:relative;}
-			#profile>*:first-child>div{width:30%;padding-bottom:30%;background:var(--img-profile) center center;background-size:cover;border-radius:100vw;shape-outside:circle();}
+			#profile>*:first-child>div{width:18%;padding-bottom:18%;shape-outside:circle();position:relative;}
+			#profile>*:first-child>div>*{background:var(--img-profile) center center no-repeat;background-size:cover;width:96%;height:96%;position:absolute;top:2%;left:2%;border-radius:100vw;}
 			#profile>*:first-child>div:dir(ltr){float:left;}
 			#profile>*:first-child>div:dir(rtl){float:right;}
 			#profile>*:first-child>h1{display:inline-block;margin:12px 0 0 0;font-size:3vw;}
@@ -176,11 +179,13 @@
 			}
 
 			class Ram{
+				static hand='right';
 				static lang='en';
 				static page='profile';
 				static id=0;
 				static btn={};
 				static base;
+				static door;
 				static setLang(lang){
 					if(lang in Setting.lang){
 						document.getElementsByTagName('html')[0].setAttribute('lang',lang);
@@ -190,9 +195,10 @@
 				}
 				static getLang(){return document.hand || document.querySelector('html').getAttribute('lang');}
 				static setHand(hand){
-					if(hand in Setting.hand)
+					if(hand in Setting.hand){
 						document.getElementsByTagName('html')[0].setAttribute('hand',hand);
-					//else throw 'xX Ram.setHand(hand) Xx';
+						Ram.hand=hand;
+					}//else throw 'xX Ram.setHand(hand) Xx';
 				}
 				static getHand(){return document.hand || document.querySelector('html').getAttribute('hand');}
 			}
@@ -331,7 +337,7 @@
 								title:v.des[Ram.lang]
 							}
 						};
-						if(Ram.getHand()==v.key)
+						if(Ram.hand==v.key)
 							y.a.style='text-decoration:underline;color:red;'
 						x.c[0].c[1].c[0].c[1].c.push(y);
 					});
@@ -368,8 +374,8 @@
 							hand=v;
 					});
 					this.close();
-					if( this.getLang!=lang.key || this.getHand()!=hand.key )
-						this.changePage(lang.key,lang.dir,hand.key);
+					if( Ram.lang!=lang.key || Ram.hand!=hand.key )
+						Address.change.setting({lang:lang.key,hand:hand.key});
 				}
 				static changePage(lang,dir,hand){
 					let door=document.querySelector('#door');
@@ -404,16 +410,48 @@
 						title:{
 							fa:'نمایه',
 							en:'Profile'
+						},
+						header:{
+							title:{
+								fa:'من مجتبی هستم',
+								en:'I am Mojtaba'
+							},
+							des:{
+								fa:'متولد ۱۹ اردیبهشت ۱۳۶۹ در تهران و در حال حاضر هم ساکن همین شهر هستم.'+
+								"\n"+
+								'به علت علاقه ای که به حل مسئله داشتم و دارم وارد دنیا برنامه نویسی و پس از آن تحلیل و الگو شناسی داده شدم و در حال حاضر بیشتر با زبان های برنامه نویسی پایتون ، جاوا اسکریپت ، php و MQL4/5 و کمی هم پاین اسکریپت کار می کنم، و در گذشته نیز با زبان های برنامه نویسی نظیر c++ ، جاوا ( برنامه نویسی موبایل ) و کمی هم C# و kotlin کار کردم.'+
+								"\n"+
+								'و قطعا واقف هستید که کسی که با زبان های برنامه نویسی کار می کنم باید تسلط به پایگاه داده هم داشته باشد و کسی هم که با زبان تحت وب مثل php و این روز javascript کار می کنه باید در کنارش به HTML و Css تسلط داشته باشد.'
+								,
+								en:'I was born on May 9, 1990, in Tehran and currently reside in the same city.'+
+								"\n"+
+								'Driven by my passion for problem-solving, I entered the world of programming and later transitioned into data analysis and pattern recognition. Currently, I primarily work with Python, JavaScript, PHP, MQL4/5, and PineScript. In the past, I have also worked with C++, Java (mobile development), C#, and Kotlin.'+
+								"\n"+
+								'As you may know, proficiency in databases is essential for any programmer. Similarly, working with web languages like PHP and modern JavaScript requires a strong command of HTML and CSS.'
+							}
 						}
 					};
 					creator(){
-						ManagePages.changePage(this,Ele.create({
+						return Ele.create({
 							e:'div',
-							a:{id:'Profile'},
+							a:{id:'profile'},
 							c:[
-								{e:'h1',t:this.dic.title[Ram.lang]}
+								{
+									e:'div',
+									c:[
+										{e:'div',c:[{e:'div'}]},
+										{e:'h1',t:this.dic.header.title[Ram.lang]},
+										{e:'p',t:this.dic.header.des[Ram.lang],a:{class:'text'}}
+									]
+								},
+								{
+									e:'div',
+									c:[
+										{e:'hr'}
+									]
+								}
 							]
-						}));
+						});
 					}
 				};
 				static projects=new class{
@@ -425,13 +463,13 @@
 						}
 					};
 					creator(){
-						ManagePages.changePage(this,Ele.create({
+						return Ele.create({
 							e:'div',
 							a:{id:'Projects'},
 							c:[
 								{e:'h1',t:this.dic.title[Ram.lang]}
 							]
-						}));
+						});
 					}
 				};
 				static works=new class{
@@ -443,13 +481,13 @@
 						}
 					};
 					creator(){
-						ManagePages.changePage(this,Ele.create({
+						return Ele.create({
 							e:'div',
 							a:{id:'Work'},
 							c:[
 								{e:'h1',t:this.dic.title[Ram.lang]}
 							]
-						}));
+						});
 					}
 				};
 				static me=new class{
@@ -461,13 +499,13 @@
 						}
 					};
 					creator(){
-						ManagePages.changePage(this,Ele.create({
+						return Ele.create({
 							e:'div',
 							a:{id:'Me'},
 							c:[
 								{e:'h1',t:this.dic.title[Ram.lang]}
 							]
-						}));
+						});
 					}
 				};
 			}
@@ -480,99 +518,90 @@
 					Ram.btn.works.title=Pages.works.dic.title[Ram.lang];
 					Ram.btn.me.title=Pages.me.dic.title[Ram.lang];
 				}
-				
-				static urlMining(replace=false){
-					let l='?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page.name+'&id='+Ram.id;
-					if(replace){
-						console.log('injam1');
-						window.history.replaceState('','',l);
-					}else{
-						console.log('injam2');
-						window.history.pushState('','',l);
-					}
-				}
-				
-				static changePage(p,n,i=0){
-					let c=Ram.base.children;
-					if(c.length==0){
-						c=Ele.create({e:'div'});
-						Ram.base.appendChild(c);
-					}else c=c[0];
-					c.setAttribute('class','hide');
-					if( Ram.page!=p || Ram.id!=i ){
-						Ram.page=p;
-						Ram.id=i;
-						this.urlMining();
-					}else this.urlMining(true);
-					c.addEventListener('animationend',(e)=>{
-						Ele.deleteAllChild(Ram.base);
-						n.setAttribute('class','show');
-						Ram.base.appendChild(n);
-					});
-				}
-				
-				static address(){
-					let get=window.location.href.split('?'),data={};
-					if(get.length<=1){
-						this.#start();
-					}else{
-						get=get[1].split('&');
-						for(let i=get.length-1;i>=0;i--){
-							get[i]=get[i].split('=');
-							if( get[i].length==2 && ['page','id','hand','lang'].includes(get[i][0]) )
-								data[get[i][0]]=get[i][1];
-						}
-						//this.#changePage(data);
-					}
-				}
-				/*
-				static changePage(p,n,i=0){
-					let b=document.getElementById('base'),c=b.children[0];
-					c.setAttribute('class','hide');
-					this.page=p;
-					this.id=i;
-					this.#changeUrl();
-					c.addEventListener('animationend',(e)=>{
-						Ele.deleteAllChild(b);
-						n.setAttribute('class','show');
-						b.appendChild(n);
-					});
-				}
-				static #changeUrl(){
-					window.history.pushState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page+'&id='+Ram.id);
-				}
-				*/
-				static go(){
-					let get=window.location.href.split('?'),data={};
-					if(get.length<=1){
-						Ram.page=Pages.profile;
-						Ram.id=0;
-						Ram.setLang('en');
-						window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page.name+'&id='+Ram.id);
-						Pages.profile.creator();
-					}else{
-						get=get[1].split('&');
-						for(let i=get.length-1;i>=0;i--){
-							get[i]=get[i].split('=');
-							if( get[i].length==2 && ['page','id','hand','lang'].includes(get[i][0]) )
-								data[get[i][0]]=get[i][1];
-						}
-						//this.#changePage(data);
-					}
-				}
-				static #start(){
-					Ram.page=Pages.profile;
-					Ram.id=0;
-					Ram.setLang('en');
-					window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.getHand()+'&page='+Ram.page.name+'&id='+Ram.id);
-					Pages.profile.creator();
+				static start(){
+					let data=Address.get();
+					if( !data.hasOwnProperty('hand') || !Setting.hand.hasOwnProperty(data.hand) )
+						data.hand=Ram.hand;
+					if( !data.hasOwnProperty('lang') || !Setting.lang.hasOwnProperty(data.lang) )
+						data.lang=Ram.lang;
+					if( !data.hasOwnProperty('page') || !Pages.hasOwnProperty(data.page) )
+						data.page=Ram.page;
+					if(!data.hasOwnProperty('id'))
+						data.id=Ram.id;
+					Ram.setLang(data.lang);
+					Ram.setHand(data.hand);
+					Ram.id=data.id;
+					window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.hand+'&page='+Ram.page+'&id='+Ram.id);
+					Ele.deleteAllChild(Ram.base);
+					Ram.base.appendChild(Pages[Ram.page].creator(Ram.id));
 				}
 			};
 			class Address{
-				default={hand:'right',lang:'en',page:'profile',id:0};
-				change(link={hand:'right',lang:'en',page:'profile',id:0}){
-					
+				static get(){
+					let get=window.location.href.split('?');
+					if(get.length<=1){
+						return {};
+					}
+					let data={};
+					get=get[1].split('&');
+					for(let i=get.length-1;i>=0;i--){
+						get[i]=get[i].split('=');
+						if( get[i].length==2 && ['page','id','hand','lang'].includes(get[i][0]) )
+							data[get[i][0]]=get[i][1];
+					}
+					return data;
 				}
+				static change=new class{
+					setting(data={hand:Ram.hand,lang:Ram.lang}){
+						if( !data.hasOwnProperty('hand') || !Setting.hand.hasOwnProperty(data.hand) )
+							data.hand=Ram.hand;
+						if( !data.hasOwnProperty('lang') || !Setting.lang.hasOwnProperty(data.lang) )
+							data.lang=Ram.lang;
+						if( data.hand!=Ram.hand || data.lang!=Ram.lang ){
+							Ram.door.setAttribute('class','restart');
+							window.history.replaceState('','','?lang='+data.lang+'&hand='+data.hand+'&page='+Ram.page+'&id='+Ram.id);
+							Ram.door.children[0].addEventListener('animationend',(e)=>{
+								if(e.animationName=='restartLeft'){
+									Ram.setLang(data.lang);
+									Ram.setHand(data.hand);
+									ManagePages.review();
+									Ele.deleteAllChild(Ram.base);
+									document.title=Pages[Ram.page].dic.title[Ram.lang];
+									Ram.base.appendChild(Pages[Ram.page].creator(Ram.id));
+									document.documentElement.style.setProperty('--time-delay-start','999ms');
+									Ram.door.setAttribute('class','start');
+								}
+							});
+						}
+					}
+					page(data={page:Ram.page,id:Ram.id}){
+						if( !data.hasOwnProperty('page') || !Pages.hasOwnProperty(data.page) )
+							data.page=Ram.page;
+						if(!data.hasOwnProperty('id'))
+							data.id=0;
+						if( data.page!=Ram.page || data.id!=Ram.id ){
+							window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.hand+'&page='+data.page+'&id='+data.id);
+							Ram.page=data.page;
+							Ram.id=data.id;
+							if(Ram.base.children.length==0){
+								this.#newPage(data.page,data.id);
+							}else{
+								let x=Ram.base.children,l=x.length-1;
+								for(let i=0;i<=l;i++)
+									x[i].setAttribute('class','hide');
+								x[l].onanimationend=(e)=>{
+									Ele.deleteAllChild(Ram.base);
+									this.#newPage(data.page,data.id);
+								};
+							}
+						}
+					}
+					#newPage(page,id){
+						let e=Pages[page].creator(id);
+						e.setAttribute('class','show');
+						Ram.base.appendChild(e);
+					}
+				};
 			}
 
 			window.onload=(e)=>{
@@ -580,34 +609,38 @@
 					constructor(){
 						Ram.setLang(Ram.getLang());
 						Ram.base=document.getElementById('base');
+						Ram.door=document.getElementById('door');
 						Ram.btn['search']=document.getElementById('searchBTN');
 						Ram.btn['profile']=document.getElementById('profileBTN');
 						Ram.btn['setting']=document.getElementById('settingBTN');
 						Ram.btn['projects']=document.getElementById('projectsBTN');
 						Ram.btn['works']=document.getElementById('worksBTN');
 						Ram.btn['me']=document.getElementById('meBTN');
+						ManagePages.start();
 						ManagePages.review();
-						Pages.profile.creator();
-						ManagePages.go();
 					}
 				}
 			}
 			window.onclick=(e)=>{
 				switch(e.target){
 					case Ram.btn['profile']:
-						Pages.profile.creator();
+						//Pages.profile.creator();
+						Address.change.page({page:'profile'});
 						break;
 					case Ram.btn['setting']:
 						Setting.creator();
 						break;
 					case Ram.btn['projects']:
-						Pages.projects.creator();
+						//Pages.projects.creator();
+						Address.change.page({page:'projects'});
 						break;
 					case Ram.btn['works']:
-						Pages.works.creator();
+						//Pages.works.creator();
+						Address.change.page({page:'works'});
 						break;
 					case Ram.btn['me']:
-						Pages.me.creator();
+						//Pages.me.creator();
+						Address.change.page({page:'me'});
 						break;
 					default:
 						//alert('ye jaie dige...');
@@ -648,7 +681,10 @@
 		</footer>
 
 		<div id="base">
-			
+			<div id="profile">
+				<div>
+				</div>
+			</div>
 		</div>
 
 	</body>
