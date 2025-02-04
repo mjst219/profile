@@ -533,6 +533,7 @@
 					Ram.id=data.id;
 					window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.hand+'&page='+Ram.page+'&id='+Ram.id);
 					Ele.deleteAllChild(Ram.base);
+					document.title=Pages[Ram.page].dic.title[Ram.lang];
 					Ram.base.appendChild(Pages[Ram.page].creator(Ram.id));
 				}
 			};
