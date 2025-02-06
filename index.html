@@ -36,11 +36,12 @@
 			body{margin:0;overflow-x:hidden;}
 			body::before,#setting{content:"";position:fixed;width:100%;height:100%;top:0;left:0;}
 			body::before{opacity:0;background:var(--img-dreamer) center center no-repeat;background-size:contain;animation:startBG 3333ms ease-in-out 3333ms forwards;}
+			h1,h2,h3,h4,h5,h6{margin:0;}
 			a{cursor:pointer;}
 			.show{animation:show var(--time-motion-page) ease-in-out forwards;}
 			.hide{animation:hide var(--time-motion-page) ease-in-out forwards;}
 
-			.text{white-space:pre-line;text-align:justify;}
+			.text{white-space:pre-line;text-align:justify;line-height:144%;}
 
 			#door>div{content:"";width:50vw;height:100vh;position:fixed;top:0;background:var(--color-base);z-index:3;}
 			#door>div:first-child{background:var(--img-dreamer-left) center right no-repeat,var(--color-base);}
@@ -94,16 +95,21 @@
 			#setting>*>*:nth-child(2)>input{width:100%;}
 
 			#base{position:relative;margin:var(--size-band) auto;}
-			
+			#base>*{padding:9px 0;}
+
 			#profile>*:first-child{display:inline-block;width:100%;position:relative;}
 			#profile>*:first-child>div{width:18%;padding-bottom:18%;shape-outside:circle();position:relative;}
 			#profile>*:first-child>div>*{background:var(--img-profile) center center no-repeat;background-size:cover;width:96%;height:96%;position:absolute;top:2%;left:2%;border-radius:100vw;}
 			#profile>*:first-child>div:dir(ltr){float:left;}
 			#profile>*:first-child>div:dir(rtl){float:right;}
-			#profile>*:first-child>h1{display:inline-block;margin:12px 0 0 0;font-size:3vw;}
+			#profile>*>h1{display:inline-block;margin-top:12px;}
 			#profile>*:first-child>p{margin:1%;}
 
-			
+			#projects>a{text-decoration:none;display:block;padding:9px;color:black;}
+			#projects>a:hover{background:var(--color-base);}
+			#projects>a>h2{margin-bottom:9px;}
+			#projects>a>p{margin:0;}
+			#projects>hr{margin:0;}
 			
 			/*@media all and (orientation:landscape){}*/
 			@media all and (orientation:portrait){
@@ -114,6 +120,7 @@
 					--size-icon-frame:1.5vh 3vh;
 					--size-icon-outside:-2.25vh;
 				}
+				/*#profile>*:first-child>div{width:12%;padding-bottom:12%;}*/
 			}
 			@media only screen and (max-width:1069px){
 				:root{
@@ -419,20 +426,136 @@
 							des:{
 								fa:'متولد ۱۹ اردیبهشت ۱۳۶۹ در تهران و در حال حاضر هم ساکن همین شهر هستم.'+
 								"\n"+
-								'به علت علاقه ای که به حل مسئله داشتم و دارم وارد دنیا برنامه نویسی و پس از آن تحلیل و الگو شناسی داده شدم و در حال حاضر بیشتر با زبان های برنامه نویسی پایتون ، جاوا اسکریپت ، php و MQL4/5 و کمی هم پاین اسکریپت کار می کنم، و در گذشته نیز با زبان های برنامه نویسی نظیر c++ ، جاوا ( برنامه نویسی موبایل ) و کمی هم C# و kotlin کار کردم.'+
+								'به علت علاقه ای که به حل مسئله داشتم و دارم وارد دنیا برنامه نویسی و پس از آن تحلیل و الگو شناسی داده شدم و در حال حاضر بیشتر با زبان های برنامه نویسی پایتون ، جاوا اسکریپت ، php و MQL4/5 و کمی هم پاین اسکریپت کار می کنم، و در گذشته نیز با زبان های برنامه نویسی نظیر c++ ، جاوا و کمی هم C# و kotlin کار کردم و به موارد یاد شده، باید تسلط به SQL و PLSQL و NoSQL بهمراه ‌Html و Css  را نیز اضافه کنم.'+
 								"\n"+
-								'و قطعا واقف هستید که کسی که با زبان های برنامه نویسی کار می کنم باید تسلط به پایگاه داده هم داشته باشد و کسی هم که با زبان تحت وب مثل php و این روز javascript کار می کنه باید در کنارش به HTML و Css تسلط داشته باشد.'
+								'در حال حاضر بر روی تحلیل داده های بازار های مالی با هوش مصنوعی تمرکز دارم.'
 								,
 								en:'I was born on May 9, 1990, in Tehran and currently reside in the same city.'+
 								"\n"+
-								'Driven by my passion for problem-solving, I entered the world of programming and later transitioned into data analysis and pattern recognition. Currently, I primarily work with Python, JavaScript, PHP, MQL4/5, and PineScript. In the past, I have also worked with C++, Java (mobile development), C#, and Kotlin.'+
+								'Because of my interest in problem solving, I entered the world of programming and then analysis and pattern analysis. Currently, I mostly work with programming languages ​​Python, JavaScript, PHP, MQL4/5, and a little bit of Pine Script, and in the past, I also worked with programming languages ​​such as C++, Java, and a little bit of C# and Kotlin, and in addition to the above, I must master SQL, PLSQL, and NoSQL along with Html and Css. also add'+
 								"\n"+
-								'As you may know, proficiency in databases is essential for any programmer. Similarly, working with web languages like PHP and modern JavaScript requires a strong command of HTML and CSS.'
+								'I am currently focusing on financial market data analysis with artificial intelligence.'
 							}
+						},
+						skill:{
+							title:{
+								fa:'مهارت ها',
+								en:'Skills'
+							},
+							des:[
+								{
+									title:{
+										fa:'زبان برنامه نویسی',
+										en:'Programming language'
+									},
+									des:[
+										{
+											fa:'پایتون',
+											en:'Python'
+										},{
+											fa:'جاوا اسکریپت',
+											en:'JavaScript'
+										},{
+											fa:'PHP',
+											en:'PHP'
+										},{
+											fa:'MQL4',
+											en:'MQL4'
+										},{
+											fa:'MQL5',
+											en:'MQL5'
+										},{
+											fa:'پاین اسکریپت',
+											en:'PainScript'
+										}
+									]
+								},{
+									title:{
+										fa:'پایگاه داده',
+										en:'Database'
+									},
+									des:[
+										{
+											fa:'SQL',
+											en:'SQL'
+										},{
+											fa:'PL/SQL',
+											en:'PL/SQL'
+										},{
+											fa:'No-SQL',
+											en:'No-SQL'
+										}
+									]
+								},{
+									title:{
+										fa:'فناوری',
+										en:'Technology'
+									},
+									des:[
+										{
+											fa:'لینوکس',
+											en:'Linux'
+										},{
+											fa:'انجین ایکس',
+											en:'NGINX'
+										},{
+											fa:'آپاچی',
+											en:'Apache'
+										},{
+											fa:'متاتریدر',
+											en:'MetaTrader'
+										},{
+											fa:'تریدینگ ویو',
+											en:'TradingView'
+										},{
+											fa:'هوش مصنوعی',
+											en:'Artificial Intelligence'
+										}
+									]
+								},{
+									title:{
+										fa:'‌متخصص در',
+										en:'Specialist in'
+									},
+									des:[
+										{
+											fa:'طراحی و توسعه سایت ( backend و frontend )',
+											en:'Website design and development (backend and frontend)'
+										},{
+											fa:'طراحی . توسعه اپلیکیشن های سیستمی',
+											en:'design Development of system applications'
+										},{
+											fa:'طراحی و توسعه Indicator و Expert برای بازار های مالی',
+											en:'Design and development of Indicator and Expert for financial markets'
+										},{
+											fa:'تحلیل ، الگویابی و الگوسازی داده',
+											en:'Analysis, modeling and data modeling'
+										}
+									]
+								}
+							]
+						},
+						interests:{
+							title:{
+								fa:'علایق',
+								en:'Interests'
+							},
+							des:[
+								{
+									fa:'برنامه نویسی حوزه تحلیل و الگویابی و الگوسازی برای بازارهای مالی.',
+									en:'Programming in the field of analysis, pattern finding and modeling for financial markets.'
+								},{
+									fa:'طراحی و توسعه سایت یا اپلیکیشن های آنلاین.',
+									en:'Design and development of websites or online applications.'
+								},{
+									fa:'اسکرام مستر',
+									en:'Scrum Master'
+								}
+							]
 						}
 					};
 					creator(){
-						return Ele.create({
+						let data={
 							e:'div',
 							a:{id:'profile'},
 							c:[
@@ -443,15 +566,34 @@
 										{e:'h1',t:this.dic.header.title[Ram.lang]},
 										{e:'p',t:this.dic.header.des[Ram.lang],a:{class:'text'}}
 									]
-								},
-								{
+								},{
 									e:'div',
 									c:[
-										{e:'hr'}
+										{e:'hr'},
+										{e:'h2',t:this.dic.skill.title[Ram.lang]},
+										{e:'ul',a:{class:'text'},c:[]}
+									]
+								},{
+									e:'div',
+									c:[
+										{e:'hr'},
+										{e:'h2',t:this.dic.interests.title[Ram.lang]},
+										{e:'ul',a:{class:'text'},c:[]}
 									]
 								}
 							]
+						};
+						this.dic.skill.des.forEach((v,i)=>{
+							let c=[]
+							v.des.forEach((v2,i2)=>{
+								c.push({e:'li',t:v2[Ram.lang]})
+							});
+							data.c[1].c[2].c.push({e:'li',c:[{e:'h3',t:v.title[Ram.lang]},{e:'ul',c:c}]})
 						});
+						this.dic.interests.des.forEach((v,i)=>{
+							data.c[2].c[2].c.push({e:'li',t:v[Ram.lang]});
+						});
+						return Ele.create(data);
 					}
 				};
 				static projects=new class{
@@ -460,16 +602,42 @@
 						title:{
 							fa:'پروژه ها',
 							en:'Projects'
-						}
+						},
+						des:{
+							fa:'',
+							en:''
+						},
+						post:[
+							{
+								title:{
+									fa:'اندیکاتور BlockMP',
+									en:'Indicator BlockMP'
+								},
+								des:{
+									fa:'اندیکاتور بلاک برگرفته از ایده ی جناب آقای پازوکی بوده و با توجه به درخواست چند تن از دوستان برای سه سکوی متاتریدر ۴ و ۵ و پاین اسکریپت پیاده سازی شد.',
+									en:'The Block indicator was derived from Mr.Pazuki idea and was implemented for the three platforms MetaTrader 4 and 5 and PineScript at the request of several friends.'
+								},
+								link:{
+									fa:'https://github.com/mjst219/BlockMP/blob/main/README-fa.md',
+									en:'https://github.com/mjst219/BlockMP'
+								}
+							}
+						]
 					};
 					creator(){
-						return Ele.create({
-							e:'div',
-							a:{id:'Projects'},
-							c:[
-								{e:'h1',t:this.dic.title[Ram.lang]}
-							]
+						let data={e:'div',a:{id:'projects'},c:[]};
+						this.dic.post.forEach((v,i)=>{
+							data.c.push({
+								e:'a',
+								a:{href:v.link[Ram.lang],target:'_blanck'},
+								c:[
+									{e:'h2',t:v.title[Ram.lang]},
+									{e:'p',t:v.des[Ram.lang]}
+								]
+							});
+							data.c.push({e:'hr'});
 						});
+						return Ele.create(data);
 					}
 				};
 				static works=new class{
@@ -496,16 +664,74 @@
 						title:{
 							fa:'راه های ارتباطی',
 							en:'Ways of communication'
+						},
+						des:{
+							fa:'راه های ارتباطی زیر، پل ارتباطی بین من و شماست.',
+							en:'The following communication channels are a bridge between you and me.'
+						},
+						contact:[
+							{
+								title:{
+									fa:'شماره تلفن: ',
+									en:'Phone number: '
+								},
+								key:{
+									fa:'+۹۸۹۳۵۱۶۹۲۱۱۵',
+									en:'+989351692115'
+								},
+								link:'tel:+989351692115'
+							},{
+								title:{
+									fa:'پست الکترونیکی: ',
+									en:'eMail: '
+								},
+								key:{
+									fa:'mjst219@gmail.com',
+									en:'mjst219@gmail.com'
+								},
+								link:'mailto:mjst219@gmail.com'
+							}
+						],
+						social:{
+							title:{
+								fa:'شبکه های اجتماعی',
+								en:'Social networks'
+							},
+							des:[
+								{
+									fa:'لینکدین',
+									en:'Linkdin',
+									link:'https://www.linkedin.com/in/mojtaba-safari-a5b064346'
+								},{
+									fa:'تلگرام',
+									en:'Telegram',
+									link:'https://t.me/+989351692115'
+								},{
+									fa:'واتساپ',
+									en:'WhatsApp',
+									link:'https://wa.me/+989351692115'
+								}
+							]
 						}
 					};
 					creator(){
-						return Ele.create({
+						let data={
 							e:'div',
-							a:{id:'Me'},
+							a:{id:'me'},
 							c:[
-								{e:'h1',t:this.dic.title[Ram.lang]}
+								{e:'h1',t:this.dic.title[Ram.lang]},
+								{e:'p',t:this.dic.des[Ram.lang]},
+								{e:'ul',a:{class:'text'},c:[]}
 							]
+						};
+						this.dic.contact.forEach((v,i)=>{
+							data.c[2].c.push({e:'li',t:v.title[Ram.lang],c:[{e:'a',t:v.key[Ram.lang]+"",a:{href:v.link}}]});
 						});
+						data.c[2].c.push({e:'li',t:this.dic.social.title[Ram.lang],c:[{e:'ul',c:[]}]});
+						this.dic.social.des.forEach((v,i)=>{
+							data.c[2].c[data.c[2].c.length-1].c[0].c.push({e:'li',c:[{e:'a',t:v[Ram.lang],a:{href:v['link'],target:'_blank'}}]});
+						});
+						return Ele.create(data);
 					}
 				};
 			}
@@ -531,10 +757,26 @@
 					Ram.setLang(data.lang);
 					Ram.setHand(data.hand);
 					Ram.id=data.id;
+					Ram.page=data.page;
 					window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.hand+'&page='+Ram.page+'&id='+Ram.id);
 					Ele.deleteAllChild(Ram.base);
 					document.title=Pages[Ram.page].dic.title[Ram.lang];
 					Ram.base.appendChild(Pages[Ram.page].creator(Ram.id));
+					this.startLoad();
+					Ram.door.children[0].addEventListener('animationend',(e)=>{
+						if(e.animationName=='startLeft'){
+							ManagePages.endLoad();
+						}
+					});
+
+				}
+				static startLoad(){
+					let x=document.getElementsByClassName('avg');
+					for(let i=x.length-1;i>=0;i--)
+						console.log(i);
+				}
+				static endLoad(){
+					
 				}
 			};
 			class Address{
@@ -581,9 +823,9 @@
 						if(!data.hasOwnProperty('id'))
 							data.id=0;
 						if( data.page!=Ram.page || data.id!=Ram.id ){
-							window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.hand+'&page='+data.page+'&id='+data.id);
 							Ram.page=data.page;
 							Ram.id=data.id;
+							window.history.replaceState('','','?lang='+Ram.lang+'&hand='+Ram.hand+'&page='+data.page+'&id='+data.id);
 							if(Ram.base.children.length==0){
 								this.#newPage(data.page,data.id);
 							}else{
@@ -646,7 +888,7 @@
 					default:
 						//alert('ye jaie dige...');
 				}
-				return false;
+				//return false;
 			}
 			window.addEventListener('popstate',(e)=>{
 				console.log('soon');
