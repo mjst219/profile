@@ -4,7 +4,10 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		<meta charset="utf-8">
 		<link rel="icon" href="./tank/icon.jpg" />
-		<title>salam</title>
+		<title>Dreamer</title>
+		<meta name="description" content="Dreamer CV">
+		<meta name="keywords" content="Dreamer,Mojtaba,Safari">
+		<meta name="author" content="Mojtaba Safari (Dreamer)">
 		<style>
 			:root{
 				--color-base:rgb(246,248,250);
@@ -138,14 +141,6 @@
 			@keyframes hide{0%{opacity:1;filter:blur(0px);}100%{opacity:0;filter:blur(9px);}}
 		</style>
 		<script>
-			const data={
-				profile:{
-					title:{
-						fa:'اسم من مجتباست',
-						en:'My name is Mojtaba'
-					}
-				}
-			}
 			class Ele{
 				static create(d){
 					try{
@@ -212,28 +207,30 @@
 			class Setting{
 				static lang={
 					fa:{
-						title:{
-							fa:'FA',
-							en:'FA'
-						},
-						des:{
-							fa:'زبان پارسی',
-							en:'Persian language'
-						},
+						title:'پارسی (FA)',
+						des:'زبان پارسی',
 						key:'fa',
 						dir:'rtl'
 					},
 					en:{
-						title:{
-							fa:'EN',
-							en:'EN'
-						},
-						des:{
-							fa:'زبان انگلیسی',
-							en:'English language'
-						},
+						title:'English (EN)',
+						des:'English language',
 						key:'en',
 						dir:'ltr'
+					},
+					de:{
+						title:'Deutsch (DE)',
+						des:'Deutsche Sprache',
+						key:'de',
+						dir:'ltr',
+						disabled:true
+					},
+					ar:{
+						title:'عربي (AR)',
+						des:'اللغة العربية',
+						key:'ar',
+						dir:'rtl',
+						disabled:true
 					}
 				};
 				static hand={
@@ -302,7 +299,8 @@
 													{
 														e:'tr',
 														c:[
-															{e:'td',t:this.dic['language'][Ram.lang]+':'}
+															{e:'td',t:this.dic['language'][Ram.lang]+':'},
+															{e:'td',a:{colspan:'2'},c:[{e:'select',c:[]}]}
 														]
 													},
 													{
@@ -323,18 +321,16 @@
 
 					Object.values(this.lang).forEach((v,i)=>{
 						let y={
-							e:'td',
-							t:v.title[Ram.lang],
-							a:{
-								onclick:'Setting.changeSelect(this);',
-								title:v.des[Ram.lang]
-							}
+							e:'option',
+							t:v.title,
+							a:{title:v.des}
 						};
-						if(Ram.lang==v.key)
-							y.a.style='text-decoration:underline;color:red;'
-						x.c[0].c[1].c[0].c[0].c.push(y);
+						if(v.hasOwnProperty('disabled'))
+							y.a['disabled']='true'
+						else if(Ram.lang==v.key)
+							y.a['selected']='true'
+						x.c[0].c[1].c[0].c[0].c[1].c[0].c.push(y);
 					});
-					
 					Object.values(this.hand).forEach((v,k)=>{
 						let y={
 							e:'td',
@@ -367,10 +363,11 @@
 				static apply(){
 					let list,lang,hand;
 					//lang
-					list=document.querySelector('#setting').querySelectorAll('tr')[0].children;
+					list=document.querySelector('#setting').querySelectorAll('tr')[0].children[1].children[0];
+					let select=list.value;
+					list=list.children;
 					Object.values(this.lang).forEach((v,k)=>{
-						let i=k+1;
-						if(list[i].hasAttribute('style'))
+						if(v.title==select)
 							lang=v;
 					});
 					//hand
@@ -407,6 +404,10 @@
 					title:{
 						fa:'جستجو',
 						en:'Search'
+					},
+					des:{
+						fa:'',
+						en:''
 					}
 				};
 			};
@@ -415,27 +416,21 @@
 					name='profile';
 					dic={
 						title:{
-							fa:'نمایه',
-							en:'Profile'
+							fa:'من مجتبی هستم',
+							en:'I am Mojtaba'
 						},
-						header:{
-							title:{
-								fa:'من مجتبی هستم',
-								en:'I am Mojtaba'
-							},
-							des:{
-								fa:'متولد ۱۹ اردیبهشت ۱۳۶۹ در تهران و در حال حاضر هم ساکن همین شهر هستم.'+
-								"\n"+
-								'به علت علاقه ای که به حل مسئله داشتم و دارم وارد دنیا برنامه نویسی و پس از آن تحلیل و الگو شناسی داده شدم و در حال حاضر بیشتر با زبان های برنامه نویسی پایتون ، جاوا اسکریپت ، php و MQL4/5 و کمی هم پاین اسکریپت کار می کنم، و در گذشته نیز با زبان های برنامه نویسی نظیر c++ ، جاوا و کمی هم C# و kotlin کار کردم و به موارد یاد شده، باید تسلط به SQL و PLSQL و NoSQL بهمراه ‌Html و Css  را نیز اضافه کنم.'+
-								"\n"+
-								'در حال حاضر بر روی تحلیل داده های بازار های مالی با هوش مصنوعی تمرکز دارم.'
-								,
-								en:'I was born on May 9, 1990, in Tehran and currently reside in the same city.'+
-								"\n"+
-								'Because of my interest in problem solving, I entered the world of programming and then analysis and pattern analysis. Currently, I mostly work with programming languages ​​Python, JavaScript, PHP, MQL4/5, and a little bit of Pine Script, and in the past, I also worked with programming languages ​​such as C++, Java, and a little bit of C# and Kotlin, and in addition to the above, I must master SQL, PLSQL, and NoSQL along with Html and Css. also add'+
-								"\n"+
-								'I am currently focusing on financial market data analysis with artificial intelligence.'
-							}
+						des:{
+							fa:'متولد ۱۹ اردیبهشت ۱۳۶۹ در تهران و در حال حاضر هم ساکن همین شهر هستم.'+
+							"\n"+
+							'به علت علاقه ای که به حل مسئله داشتم و دارم وارد دنیا برنامه نویسی و پس از آن تحلیل و الگو شناسی داده شدم و در حال حاضر بیشتر با زبان های برنامه نویسی پایتون ، جاوا اسکریپت ، php و MQL4/5 و کمی هم پاین اسکریپت کار می کنم، و در گذشته نیز با زبان های برنامه نویسی نظیر c++ ، جاوا و کمی هم C# و kotlin کار کردم و به موارد یاد شده، باید تسلط به SQL و PLSQL و NoSQL بهمراه ‌Html و Css  را نیز اضافه کنم.'+
+							"\n"+
+							'در حال حاضر بر روی تحلیل داده های بازار های مالی با هوش مصنوعی تمرکز دارم.'
+							,
+							en:'I was born on May 9, 1990, in Tehran, and I currently reside in the same city.'+
+							"\n"+
+							'Due to my passion for problem-solving, I entered the world of programming and later became involved in data analysis and pattern recognition. Currently, I primarily work with programming languages such as Python, JavaScript, PHP, and MQL4/5, along with some experience in Pine Script. In the past, I have also worked with languages like C++, Java, and to some extent, C# and Kotlin. Additionally, I have expertise in SQL, PLSQL, and NoSQL, as well as HTML and CSS.'+
+							"\n"+
+							'At present, my focus is on analyzing financial market data using artificial intelligence.'
 						},
 						skill:{
 							title:{
@@ -563,8 +558,8 @@
 									e:'div',
 									c:[
 										{e:'div',c:[{e:'div'}]},
-										{e:'h1',t:this.dic.header.title[Ram.lang]},
-										{e:'p',t:this.dic.header.des[Ram.lang],a:{class:'text'}}
+										{e:'h1',t:this.dic.title[Ram.lang]},
+										{e:'p',t:this.dic.des[Ram.lang],a:{class:'text'}}
 									]
 								},{
 									e:'div',
@@ -615,7 +610,7 @@
 								},
 								des:{
 									fa:'اندیکاتور بلاک برگرفته از ایده ی جناب آقای پازوکی بوده و با توجه به درخواست چند تن از دوستان برای سه سکوی متاتریدر ۴ و ۵ و پاین اسکریپت پیاده سازی شد.',
-									en:'The Block indicator was derived from Mr.Pazuki idea and was implemented for the three platforms MetaTrader 4 and 5 and PineScript at the request of several friends.'
+									en:'The Block indicator is derived from the idea of Mr. Pazouki and has been implemented for the three platforms, MetaTrader 4, MetaTrader 5, and Pine Script, based on the request of several friends.'
 								},
 								link:{
 									fa:'https://github.com/mjst219/BlockMP/blob/main/README-fa.md',
@@ -646,6 +641,10 @@
 						title:{
 							fa:'کارها',
 							en:'The Works'
+						},
+						des:{
+							fa:'',
+							en:''
 						}
 					};
 					creator(){
@@ -748,7 +747,7 @@
 					let data=Address.get();
 					if( !data.hasOwnProperty('hand') || !Setting.hand.hasOwnProperty(data.hand) )
 						data.hand=Ram.hand;
-					if( !data.hasOwnProperty('lang') || !Setting.lang.hasOwnProperty(data.lang) )
+					if( !data.hasOwnProperty('lang') || !Setting.lang.hasOwnProperty(data.lang) || Setting.lang[data.lang].hasOwnProperty('disabled') )
 						data.lang=Ram.lang;
 					if( !data.hasOwnProperty('page') || !Pages.hasOwnProperty(data.page) )
 						data.page=Ram.page;
@@ -809,7 +808,7 @@
 									Ram.setHand(data.hand);
 									ManagePages.review();
 									Ele.deleteAllChild(Ram.base);
-									document.title=Pages[Ram.page].dic.title[Ram.lang];
+									this.#newHeader();
 									Ram.base.appendChild(Pages[Ram.page].creator(Ram.id));
 									document.documentElement.style.setProperty('--time-delay-start','999ms');
 									Ram.door.setAttribute('class','start');
@@ -843,6 +842,10 @@
 						let e=Pages[page].creator(id);
 						e.setAttribute('class','show');
 						Ram.base.appendChild(e);
+					}
+					#newHeader(){
+						document.title=Pages[Ram.page].dic.title[Ram.lang];
+						document.querySelector('meta[name="description"]').setAttribute("content",Pages[Ram.page].dic.des[Ram.lang]);
 					}
 				};
 			}
